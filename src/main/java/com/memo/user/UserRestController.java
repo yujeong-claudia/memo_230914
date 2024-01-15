@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @RestController
 public class UserRestController {
-	
+	//api만 들어있는 컨트롤러
 	@RequestMapping("/is-duplicated-id")
 	public Map<String, Object> isDuplicatedId(
 			@RequestParam("loginId") String loginId) {
