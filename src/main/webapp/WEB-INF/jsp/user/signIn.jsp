@@ -29,12 +29,13 @@
 </div>
 
 <script>
-	$(document).ready(fuction() {
+	$(document).ready(function() {
 		// 로그인
 		$("#loginForm").on('submit', function(e) {
 			e.preventDefault(); // form 중단(화면이동방지)
 			
 			//alert("로그인");
+			
 			let loginId = $("input[name=loginId]").val().trim();
 			let password = $("input[name=password]").val();
 			
