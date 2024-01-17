@@ -8,7 +8,7 @@
 		<textarea id="content" class="form-control" placeholder="내용을 입력하세요" rows="10"></textarea>
 	
 		<div class="d-flex justify-content-end my-3">
-			<input type="file" id="file">
+			<input type="file" id="file" accept=".jpg, .png, .gif, .jpeg">
 		</div>
 		
 		<div class="d-flex justify-content-between">
@@ -24,14 +24,14 @@
 
 <script>
 	$(document).ready(function(){
-		// 목록 버튼 클릭 => 목록 화면 클릭 -> 안됨
+		// 목록 버튼 클릭 => 목록 화면 클릭 -> 안됨 -> 됨
 		$("#postListBtn").on('click', function(){
-			location.href = "post/post-list-view";
+			location.href = "/post/post-list-view";
 		});
 		
 		//모두 지우기 버튼 클릭 -> 됨
 		$("#clearBtn").on('click', function(){
-			alert = "모두 지우기"; //alert 안뜸
+			alert("모두 지우기"); //alert 뜸
 			$("#subject").val("");
 			$("#content").val("");
 		});
@@ -41,6 +41,8 @@
 			//alert("글 저장");  //alert됨
 			let subject = $("#subject").val().trim();
 			let content = $("#content").val();
+			let fileName = $("#file").val(); //C:\fakepath\giraffe-8054174_640.jpg
+			//alert(fileName)
 			
 			//validation -> 됨
 			if(!subject) {
@@ -53,11 +55,27 @@
 				return;
 			}
 			
+			// 파일이 업로드 된 경우에만 확장자 체크
+			if (fileName) {
+				//alert("파일이 있다.")
+				//C:\fakepath\giraffe-8054174_640.jpg
+				//확장자만 뽑은 후 소문자로 변경해서 검사한다.
+				let extension = fileName.split(".").pop().toLowerCase();
+				//alert(extension);
+				
+				if ($.inArray(extension, ['jpg', 'png', 'gif', 'jpeg']) == -1) {
+					alert("이미지파일만 업로드 할 수 있습니다.");
+					$("#file").val(""); //파일을 비운다.
+					return;
+				}
+			}
+			
 			// form 태그를 js에서 만든다.
 			// 이미지를 업로드할 때에는 반드시 form태그가 있어야한다.
 			let formData = new FormData();
 			formData.append("subject", subject); // key는 name속성과 같다. Request Parameter명
 			formData.append("content", content);
+			formData.append("file", $("#file")[0].files[0]);
 			
 			// AJAX
 			$.ajax({

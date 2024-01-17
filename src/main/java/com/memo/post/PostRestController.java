@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.memo.post.bo.PostBO;
 
@@ -24,6 +25,7 @@ public class PostRestController {
 	public Map<String, Object> create(
 			@RequestParam("subject") String subject,
 			@RequestParam("content") String content,
+			@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpSession session) {
 		
 		// 글쓴이 번호 - session에 있는 userId를 꺼낸다.
@@ -32,7 +34,7 @@ public class PostRestController {
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
 		// DB Insert
-		
+		postBO.addPost(userId, userLoginId, subject, content, file);
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();
