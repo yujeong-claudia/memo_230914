@@ -6,7 +6,7 @@
 		<h1>글상세</h1>
 		
 		<input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요" value="${post.subject}">
-		<textarea id="content" class="form-control" placeholder="내용을 입력하세요" rows="10" value="${post.content}"></textarea>
+		<textarea id="content" class="form-control" placeholder="내용을 입력하세요" rows="10" >${post.content}</textarea>
 		
 		<%-- 이미지가 있을 경우에만 나타냄 --%>
 		<c:if test="${not empty post.imagePath}">

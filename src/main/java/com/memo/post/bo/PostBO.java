@@ -12,33 +12,33 @@ import com.memo.post.mapper.PostMapper;
 
 @Service
 public class PostBO {
-	
+
 	@Autowired
 	private PostMapper postMapper;
-	
+
 	@Autowired
 	private FileManagerService fileManagerService;
-	
-	// input:userId(로그인 된 사람)	output: List<Post>
+
+	// input:userId(로그인 된 사람) output: List<Post>
 	public List<Post> getPostListByUserId(int userId) {
 		return postMapper.selectPostListByUserId(userId);
 	}
-	
-	//input:params		output: x
+
+	// input:params output: x
 	public void addPost(int userId, String UserLoginId, String subject, String content, MultipartFile file) {
-		
+
 		String imagePath = null;
-		
+
 		// 업로드할 이미지가 있을 때 업로드
 		if (file != null) {
 			imagePath = fileManagerService.saveFile(UserLoginId, file);
 		}
-		
+
 		postMapper.insertPost(userId, subject, content, imagePath);
 	}
-	
-	// input: postId, userId 	output: Post
+
+	// input: postId, userId output: Post
 	public Post getPostByPostIdUserId(int postId, int userId) {
 		return postMapper.selectPostByPostIdUserId(postId, userId);
 	}
- }	
+}

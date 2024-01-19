@@ -13,9 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileManagerService {
 	
 	// 학원용**실제 업로드 된 이미지가 저장될 경로(서버) -> 마지막에 / 꼭 붙여야됨
-	public static final String FILE_UPLOAD_PATH = "D:\\KIMYUJEONG\\6_spring_project\\MEMO\\memo_workspace\\images/";
-	// 집용**실제 업로드 된 이미지가 저장될 경로(서버) = ""
-	
+	//public static final String FILE_UPLOAD_PATH = "D:\\KIMYUJEONG\\6_spring_project\\MEMO\\memo_workspace\\images/";
+	// 집용**실제 업로드 된 이미지가 저장될 경로(서버) = "C:\kimyujeong\6_spring_project\memo\memo_workspace\images"
+	public static final String FILE_UPLOAD_PATH = "C:\\kimyujeong\\6_spring_project\\memo\\memo_workspace\\images/";
+			
 	//input:File 원본, userLoginId(폴더명)		output: 이미지 경로
 	public String saveFile(String loginId, MultipartFile file) {
 		// 폴더(디렉토리) 생성

@@ -31,7 +31,7 @@
 		
 		//모두 지우기 버튼 클릭 -> 됨
 		$("#clearBtn").on('click', function(){
-			alert("모두 지우기"); //alert 뜸
+			//alert("모두 지우기"); //alert 뜸
 			$("#subject").val("");
 			$("#content").val("");
 		});
