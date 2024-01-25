@@ -17,42 +17,44 @@ import lombok.extern.slf4j.Slf4j;
 public class PostBO {
 	//private Logger logger = LoggerFactory.getLogger(PostBO.class);
 	//private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private PostMapper postMapper;
-
+	
 	@Autowired
 	private FileManagerService fileManagerService;
-
-	// input:userId(로그인 된 사람) output: List<Post>
+	
+	// input: userId(로그인 된 사람)  output:List<Post>
 	public List<Post> getPostListByUserId(int userId) {
 		return postMapper.selectPostListByUserId(userId);
 	}
-
-	// input:params output: x
-	public void addPost(int userId, String UserLoginId, String subject, String content, MultipartFile file) {
-
+	
+	// input: params     output: X
+	public void addPost(int userId, String userLoginId, 
+			String subject, String content, MultipartFile file) {
+		
 		String imagePath = null;
-
+		
 		// 업로드할 이미지가 있을 때 업로드
 		if (file != null) {
-			imagePath = fileManagerService.saveFile(UserLoginId, file);
+			imagePath = fileManagerService.saveFile(userLoginId, file);
 		}
-
+		
 		postMapper.insertPost(userId, subject, content, imagePath);
 	}
-
-	// input: postId, userId output: Post
+	
+	// input: 글번호, userId    output: Post
 	public Post getPostByPostIdUserId(int postId, int userId) {
 		return postMapper.selectPostByPostIdUserId(postId, userId);
 	}
 	
-	// input:파라미터들		output:x
+	// input:파라미터들          output:X
 	public void updatePostById(
-			int userId, String userLoginId, int postId, 
-			String subject, String content, MultipartFile file) {
+			int userId, String userLoginId,
+			int postId, String subject, String content,
+			MultipartFile file) {
 		
-		// 기존 글을 가져온다. (1. 이미지 교체시 삭제하기 위해 2.업데이트 대상이 있는지 확인)
+		// 기존글을 가져온다.(1. 이미지 교체시 삭제하기 위해 2. 업데이트 대상이 있는지 확인)
 		Post post = postMapper.selectPostByPostIdUserId(postId, userId);
 		if (post == null) {
 			log.info("[글 수정] post is null. postId:{}, userId:{}", postId, userId);
@@ -67,14 +69,18 @@ public class PostBO {
 			// 업로드
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 			
-			// 업로드 성공시 기존 이미지가 있으면 제거
+			// 업로드 성공 시 기존 이미지가 있으면 제거
 			if (imagePath != null && post.getImagePath() != null) {
-				// 업로드 성공하고 기본 이미지 있으면 서버의 파일 제거
+				// 업로드 성공하고 기존 이미지 있으면 서버의 파일 제거
 				fileManagerService.deleteFile(post.getImagePath());
 			}
 		}
 		
-		//db 업데이트
+		// db 업데이트
 		postMapper.updatePostByPostId(postId, subject, content, imagePath);
+	}
+	
+	public void deletePostById(int postId) {
+		postMapper.deletePostById(postId);
 	}
 }

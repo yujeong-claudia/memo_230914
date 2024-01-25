@@ -73,6 +73,16 @@
 			</if>
 			, `updatedAt` = NOW()
 		WHERE
-			`id` = #{postId}	
+			`id` = #{postId}
 	</update>
+	
+	<delete>
+		<delete id="deletePostById" parameterType="int">
+		DELETE
+		FROM
+			`post`
+		WHERE	
+			`id` = #{postId}
+	</delete>
+	</delete>
 </mapper>

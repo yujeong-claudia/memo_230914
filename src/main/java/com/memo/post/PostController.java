@@ -23,12 +23,10 @@ public class PostController {
 	
 	@GetMapping("/post-list-view")
 	public String postListView(Model model, HttpSession session) {
-		
-		// 로그인 여부 조회 - 없을수도 있으니까 Integer
+		// 로그인 여부 조회
 		Integer userId = (Integer)session.getAttribute("userId");
-		
-		if(userId == null) {
-			// 비로그인이면 로그인 페이지로 이동시킨다.
+		if (userId == null) {
+			// 비로그인이면 로그인 페이지로 이동
 			return "redirect:/user/sign-in-view";
 		}
 		
@@ -38,6 +36,7 @@ public class PostController {
 		model.addAttribute("viewName", "post/postList");
 		return "template/layout";
 	}
+	
 	/**
 	 * 글쓰기 화면
 	 * @param model
