@@ -95,22 +95,17 @@
 			});
 		});
 		
-		// 글삭제
-		$("#deleteBtn").on('click', function(e) {
-			//alert("글 삭제버튼");
-			e.preventDefault(); //위로 올라감 방지
-			
+		$("#deleteBtn").on('click', function() {
 			let postId = $(this).data("post-id");
-			alert(postId); //-> 안되는데용
+			//alert(postId);
 			
 			$.ajax({
-				//request
 				type:"DELETE"
-				, url:"/postId/delete"
+				, url:"/post/delete"
 				, data:{"postId":postId}
 				, success:function(data) {
 					if (data.code == 200) {
-						location.reload(true);
+						location.href = "/post/post-list-view";
 					} else {
 						alert(data.error_message);
 					}
@@ -118,7 +113,7 @@
 				, error:function(request, status, error) {
 					alert("글 삭제 하는데 실패했습니다.");
 				}
+			});
 		});
-		
 	});
 </script>

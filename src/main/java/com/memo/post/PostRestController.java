@@ -52,6 +52,15 @@ public class PostRestController {
 		return result;
 	}
 	
+	/**
+	 * 글 수정 API
+	 * @param postId
+	 * @param subject
+	 * @param content
+	 * @param file
+	 * @param session
+	 * @return
+	 */
 	@PutMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam("postId") int postId,
@@ -71,29 +80,23 @@ public class PostRestController {
 		result.put("code", 200);
 		result.put("result", "성공");
 		return result;
+	}
 		
-		@DeleteMapping("/delete")
-		public Map<String, Object> delete(
-				@RequestParam("postId") int postId,
-				HttpSession session) {
+	@DeleteMapping("/delete")
+	public Map<String, Object> delete(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+
+		int userId = (int)session.getAttribute("userId");
 			
-			Map<String, Object> result = new HashMap<>();
-			// 로그인 여부 확인
-			Integer postId = (Integer)session.getAttribute("postId");
-			if (postId == null) {
-				result.put("code", 500);
-				result.put("error_message", "로그인이 되지 않은 사용자 입니다.");
-				return result;
-			}
+		// db삭제
+		postBO.deletePostByPostIdUserId(postId, userId);
 			
-			// 삭제
-			postBO.deletePostById(postId);
-			
-			// 응답값
-			result.put("code", 200);
-			result.put("result", "성공");
-			
-			return result;
+		// 응답값
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+		
 		}
 	}
-}
